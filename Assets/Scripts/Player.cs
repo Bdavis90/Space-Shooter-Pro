@@ -18,6 +18,10 @@ public class Player : MonoBehaviour
     private SpawnManager _spawnManager;
     [SerializeField]
     private bool _isTripleShotActive = false;
+    [SerializeField]
+    private bool _isSpeedActive = false;
+    [SerializeField]
+    private float _speedMultiplier = 2f;
 
     // Start is called before the first frame update
     void Start()
@@ -59,7 +63,15 @@ public class Player : MonoBehaviour
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
 
-        transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * _speed * Time.deltaTime);
+        if(_isSpeedActive)
+        {
+            transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * _speed * _speedMultiplier * Time.deltaTime);
+        }
+        else
+        {
+            transform.Translate(new Vector3(horizontalInput, verticalInput, 0) * _speed * Time.deltaTime);
+        }
+
 
         transform.position = new Vector3(transform.position.x, Mathf.Clamp(transform.position.y, -3.5f, 0), 0);
 
@@ -94,6 +106,18 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(5);
         _isTripleShotActive = false;
+    }
+
+    public void SpeedBoostActive()
+    {
+        _isSpeedActive = true;
+        StartCoroutine(SpeedPowerDownRoutine());
+    }
+
+    IEnumerator SpeedPowerDownRoutine()
+    {
+        yield return new WaitForSeconds(5);
+        _isSpeedActive = false;
     }
 
 }
