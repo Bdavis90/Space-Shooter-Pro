@@ -7,15 +7,22 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _speed = 5f;
     [SerializeField]
+    private float _speedMultiplier = 2f;
+
+    [SerializeField]
     private GameObject _laserPrefab;
     [SerializeField]
     private GameObject _tripleShotPrefab;
+
     [SerializeField]
     private float _fireRate = 0.5f;
     private float _nextFire = 0f;
+
     [SerializeField]
     private int _lives = 3;
+
     private SpawnManager _spawnManager;
+
     [SerializeField]
     private bool _isTripleShotActive = false;
     [SerializeField]
@@ -23,21 +30,29 @@ public class Player : MonoBehaviour
     [SerializeField]
     private bool _isShieldActive = false;
     [SerializeField]
-    private float _speedMultiplier = 2f;
-    [SerializeField]
     private GameObject _shieldVisualizer;
+
+    [SerializeField]
+    private int _score;
+    private UIManager _uiManager;
 
     // Start is called before the first frame update
     void Start()
     {
-        _shieldVisualizer.SetActive(false);
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
+        _shieldVisualizer.SetActive(false);
         transform.position = new Vector3(0, 0, 0);
 
         if (!_spawnManager)
         {
             Debug.LogError("The SpawnManager is NULL");
         }
+
+        if(!_uiManager)
+        {
+            Debug.LogError("The UIManager is NULL");
+        }    
     }
 
     // Update is called once per frame
@@ -135,6 +150,12 @@ public class Player : MonoBehaviour
     {
         _isShieldActive = true;
         _shieldVisualizer.SetActive(true);
+    }
+
+    public void AddToScore()
+    {
+        _score += 10;
+        _uiManager.UpdateScore(_score);
     }
 
 }
