@@ -21,11 +21,16 @@ public class Player : MonoBehaviour
     [SerializeField]
     private bool _isSpeedActive = false;
     [SerializeField]
+    private bool _isShieldActive = false;
+    [SerializeField]
     private float _speedMultiplier = 2f;
+    [SerializeField]
+    private GameObject _shieldVisualizer;
 
     // Start is called before the first frame update
     void Start()
     {
+        _shieldVisualizer.SetActive(false);
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
         transform.position = new Vector3(0, 0, 0);
 
@@ -87,6 +92,12 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
+        if(_isShieldActive)
+        {
+            _isShieldActive = false;
+            _shieldVisualizer.SetActive(false);
+            return;
+        }
         _lives--;
 
         if (_lives <= 0)
@@ -118,6 +129,12 @@ public class Player : MonoBehaviour
     {
         yield return new WaitForSeconds(5);
         _isSpeedActive = false;
+    }
+
+    public void ShieldActive()
+    {
+        _isShieldActive = true;
+        _shieldVisualizer.SetActive(true);
     }
 
 }
