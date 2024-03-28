@@ -120,6 +120,8 @@ public class Player : MonoBehaviour
             _spawnManager.OnPLayerDeath();
             Destroy(gameObject);
         }
+
+        _uiManager.UpdateLives(_lives);
     }
 
     public void TripleShotActive()
