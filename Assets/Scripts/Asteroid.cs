@@ -11,11 +11,17 @@ public class Asteroid : MonoBehaviour
     private GameObject _explosionPrefab;
     [SerializeField]
     private SpawnManager _spawnManager;
+    private UIManager _uiManager;
 
     // Start is called before the first frame update
     void Start()
     {
+        _uiManager = GameObject.Find("Canvas").GetComponent<UIManager>();
 
+        if(!_uiManager )
+        {
+            Debug.LogError("UIManager is NULL");
+        }
     }
 
     // Update is called once per frame
@@ -28,6 +34,7 @@ public class Asteroid : MonoBehaviour
     {
         if(collision.tag == "Laser")
         {
+            _uiManager.RemoveInstructions();
             Instantiate(_explosionPrefab, transform.position, Quaternion.identity);
             _spawnManager.StartSpawning();
             Destroy(collision.gameObject);

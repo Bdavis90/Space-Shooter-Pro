@@ -11,6 +11,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Text _restartText;
     [SerializeField]
+    private Text _instructionsText;
+    [SerializeField]
     private Sprite[] _liveSprites;
     [SerializeField]
     private Image _livesImg;
@@ -45,6 +47,11 @@ public class UIManager : MonoBehaviour
             _gameManager.GameOver();
             StartCoroutine(FlickerGameOverText());
         }
+    }
+
+    public void RemoveInstructions()
+    {
+        _instructionsText.gameObject.SetActive(false);
     }
 
     private IEnumerator FlickerGameOverText()
