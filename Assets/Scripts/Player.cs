@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -35,6 +36,9 @@ public class Player : MonoBehaviour
     private int _score;
     private UIManager _uiManager;
 
+    [SerializeField]
+    private List<GameObject> _engines;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -52,6 +56,11 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("The UIManager is NULL");
         }    
+
+        foreach(var engine in _engines)
+        {
+            engine.SetActive(false);
+        }
     }
 
     // Update is called once per frame
@@ -114,7 +123,15 @@ public class Player : MonoBehaviour
         }
         _lives--;
 
-        if (_lives <= 0)
+        if(_lives == 2)
+        {
+            var engine = _engines[Random.Range(0, _engines.Count)];
+            engine.SetActive(true);
+            _engines.Remove(engine);
+        } else if(_lives == 1)
+        {
+            _engines[0].SetActive(true);
+        } else
         {
             
             _spawnManager.OnPLayerDeath();
