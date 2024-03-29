@@ -12,22 +12,22 @@ public class SpawnManager : MonoBehaviour
     [SerializeField]
     private GameObject[] _powerups;
 
-    private void Start()
-    {
-        _spawningEnemyCoroutine = StartCoroutine(SpawnEnemyRoutine());
-        _spawningPowerupCoroutine = StartCoroutine(SpawnPowerupRoutine());
-
-    }
-
     // Update is called once per frame
     void Update()
     {
         
     }
 
+    public void StartSpawning()
+    {
+        _spawningEnemyCoroutine = StartCoroutine(SpawnEnemyRoutine());
+        _spawningPowerupCoroutine = StartCoroutine(SpawnPowerupRoutine());
+    }
+
     IEnumerator SpawnEnemyRoutine()
     {
-        while(true)
+        yield return new WaitForSeconds(3f);
+        while (true)
         {
             Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 8, 0);
             GameObject newEnemy = Instantiate(_enemyPrefab, posToSpawn, Quaternion.identity);
@@ -39,6 +39,7 @@ public class SpawnManager : MonoBehaviour
 
     IEnumerator SpawnPowerupRoutine()
     {
+        yield return new WaitForSeconds(3f);
         while (true)
         {
             Vector3 posToSpawn = new Vector3(Random.Range(-8f, 8f), 8, 0);
