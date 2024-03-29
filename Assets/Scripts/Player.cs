@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour
@@ -117,6 +116,7 @@ public class Player : MonoBehaviour
 
         if (_lives <= 0)
         {
+            
             _spawnManager.OnPLayerDeath();
             Destroy(gameObject);
         }

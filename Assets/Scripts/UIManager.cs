@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,13 +9,23 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private Text _gameoverText;
     [SerializeField]
+    private Text _restartText;
+    [SerializeField]
     private Sprite[] _liveSprites;
     [SerializeField]
     private Image _livesImg;
 
+    private GameManager _gameManager;
+
     // Start is called before the first frame update
     void Start()
     {
+        _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        if (!_gameManager)
+        {
+            Debug.LogError("GameManager is Null");
+        }
+        _restartText.gameObject.SetActive(false);
         _gameoverText.gameObject.SetActive(false);
         _livesImg.sprite = _liveSprites[3];
         _scoreText.text = "Score: 0";
@@ -32,7 +41,8 @@ public class UIManager : MonoBehaviour
         _livesImg.sprite = _liveSprites[currentLives];
         if (currentLives <= 0)
         {
-            _gameoverText.gameObject.SetActive(true);
+            _restartText.gameObject.SetActive(true);
+            _gameManager.GameOver();
             StartCoroutine(FlickerGameOverText());
         }
     }
